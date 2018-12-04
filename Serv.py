@@ -146,7 +146,7 @@ class Serv(BaseHTTPRequestHandler):
             comp_lvl = self.get_ent_lvl(comp)
             data_pred += [perfil, comp_lvl, self.news_class(news)]
             pred = self.knn.predict([data_pred])
-            r[comp] = int(pred[0])
+            r[comp] = self.translate_adv(int(pred[0]))
         return r
 
     def make_articles(self, num):
@@ -156,9 +156,16 @@ class Serv(BaseHTTPRequestHandler):
     def translate_news(self, num):
         abc = dict({-2: 'muito ruim',
         -1: 'ruim',
-        0: 'neutro',
+        0: 'neutra',
         1: 'boa',
         2: 'muito boa'})
+        return abc[num]
+
+    def translate_adv(self, num):
+        abc = dict({
+        -1: 'Vender',
+        0: 'Manter',
+        1: 'Comprar'})
         return abc[num]
 
     def users(self):
