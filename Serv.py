@@ -3,6 +3,7 @@ import json
 from Client import Client
 from Enterprise import  Enterprise
 from Article import Article
+from dataset import dataset
 from random import normalvariate
 from random import choices
 from sklearn.neighbors import KNeighborsClassifier
@@ -13,7 +14,7 @@ class Serv(BaseHTTPRequestHandler):
     # def __init__(self):
     #     self.elementos = []
 
-    knn = KNeighborsClassifier(n_neighbors=3)
+    knn = KNeighborsClassifier(n_neighbors=1)
 
     enterprises = [Enterprise("Microsoft", 1, [0]),
                Enterprise("Apple", 1, [0]),
@@ -36,35 +37,7 @@ class Serv(BaseHTTPRequestHandler):
            Client("Gabriela", 1)
            ]
 
-    dataset = [
-        [1, 1, 0, 0],
-        [1, 1, -2, -1],
-        [1, 2, 1, 0],
-        [1, 1, 2, 1],
-        [2, 2, 0, 0],
-        [3, 3, 0, 0],
-        [1, 1, 1, 1],
-        [2, 2, 1, 1],
-        [1, 1, -1, -1],
-        [1, 2, 1, 0],
-        [1, 3, 1, 0],
-        [3, 2, 3, 1],
-        [2, 3, 1, 0],
-        [1, 3, -2, 0],
-        [3, 3, -2, -1],
-        [2, 2, -1, 0],
-        [3, 3, -1, -1],
-        [3, 3, -2, -1],
-        [3, 2, -1, -1],
-        [3, 1, 0, 0],
-        [2, 3, -1, 0],
-        [2, 3, 2, 0],
-        [2, 3, -2, 0],
-        [2, 2, -1, -1],
-        [2, 2, -1, -1],
-        [2, 2, -1, -1],
-        [2, 2, -1, -1]
-    ]
+    dataset = dataset()
 
     last_articles = dict()
 
@@ -198,6 +171,8 @@ class Serv(BaseHTTPRequestHandler):
         c = dict()
         for comp in self.enterprises:
             c[comp.name] = comp.risk_lvl()
+            # print(comp.name)
+            # print(comp.risk_lvl())
         return c
 
     def get_ent_lvl(self, name):
